@@ -1,0 +1,8 @@
+/**
+ * Remove max-width restrictions in code view
+*/
+article.container-lg,
+.page-blob div.container-xl
+{
+  max-width: initial !important;
+}
