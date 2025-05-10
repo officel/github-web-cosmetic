@@ -6,20 +6,17 @@
   "manifest_version": 3,
   "content_scripts": [
     {
-      "matches": [
-        "https://github.com/*/*"
-      ],
-      "css": [
-        "style.css"
-      ]
+      "matches": ["https://github.com/*/*"],
+      "css": ["style.css"]
     },
     {
-      "matches": [
-        "https://github.com/*/*/actions/runs/*"
-      ],
-      "css": [
-        "actions_runs.css"
-      ]
+      "matches": ["https://github.com/*/*/actions/runs/*"],
+      "css": ["actions_runs.css"]
+    },
+    {
+      "matches": ["https://github.com/*/*"],
+      "js": ["deepwiki.js"],
+      "run_at": "document_idle"
     }
   ]
 }
