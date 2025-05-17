@@ -23,6 +23,7 @@
   img.style.width = "16px";
   img.style.height = "16px";
   img.style.verticalAlign = "middle";
+  img.style.marginRight = "8px";
   a.appendChild(img);
 
   const span = document.createElement("span");
