@@ -17,6 +17,10 @@
       "matches": ["https://github.com/*/*"],
       "js": ["deepwiki.js"],
       "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://github.com/*/*/pull/*"],
+      "css": ["pull.css"]
     }
   ]
 }
