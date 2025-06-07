@@ -2,7 +2,24 @@
  * Remove max-width restrictions in code view
 */
 article.container-lg,
-.page-blob div.container-xl
-{
+body.is-code-file div.container-xl {
   max-width: initial !important;
+}
+
+/**
+ * Layout-pane-width restrictions in runs view
+ * for actions runs page
+*/
+@media (min-width: 768px) and (min-width: 1280px) {
+  body.is-actions .PageLayout.PageLayout--paneWidth-wide {
+    --Layout-pane-width: 500px !important;
+  }
+}
+
+/**
+ * max-width restrictions in pull view
+ * for pull requests page
+*/
+body.is-pull-request #repo-content-pjax-container div {
+  max-width: 1600px !important;
 }
