@@ -9,7 +9,7 @@
     if (!ul) return;
 
     // すでに追加済みなら何もしない
-    if (ul.querySelector('.deepwiki-nav-item')) return;
+    if (ul.querySelector(".deepwiki-nav-item")) return;
 
     const li = document.createElement("li");
     li.className = "d-inline-flex deepwiki-nav-item";
@@ -41,12 +41,48 @@
     ul.appendChild(li);
   }
 
-  // Turbo.js対応: turbo:loadイベントで実行
-  document.addEventListener('turbo:load', addDeepwikiNav);
-  // 通常のページロードにも対応
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addDeepwikiNav);
+  // 初回ロード + turbo.js に対応
+  document.addEventListener("turbo:load", addDeepwikiNav);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", addDeepwikiNav);
   } else {
     addDeepwikiNav();
+    updatePageTypeClass();
   }
+
+  function updatePageTypeClass() {
+    const path = location.pathname;
+
+    // 一旦削除
+    document.body.classList.remove(
+      "is-repo-root",
+      "is-issues",
+      "is-pull-request",
+      "is-actions",
+      "is-code-file"
+    );
+
+    if (/^\/[^/]+\/[^/]+\/?$/.test(path)) {
+      document.body.classList.add("is-repo-root");
+    } else if (/\/issues(\/|$)/.test(path)) {
+      document.body.classList.add("is-issues");
+    } else if (/\/pull\/\d+/.test(path)) {
+      document.body.classList.add("is-pull-request");
+    } else if (/\/actions(\/|$)/.test(path)) {
+      document.body.classList.add("is-actions");
+    } else if (/\/blob\//.test(path)) {
+      document.body.classList.add("is-code-file");
+    }
+  }
+
+  // URL 変化の検出による SPA 対応
+  let lastUrl = location.href;
+  const observer = new MutationObserver(() => {
+    const currentUrl = location.href;
+    if (currentUrl !== lastUrl) {
+      lastUrl = currentUrl;
+      setTimeout(addDeepwikiNav, 300); // DOM 安定後に実行
+    }
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
