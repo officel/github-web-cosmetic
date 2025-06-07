@@ -41,15 +41,6 @@
     ul.appendChild(li);
   }
 
-  // 初回ロード + turbo.js に対応
-  document.addEventListener("turbo:load", addDeepwikiNav);
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", addDeepwikiNav);
-  } else {
-    addDeepwikiNav();
-    updatePageTypeClass();
-  }
-
   function updatePageTypeClass() {
     const path = location.pathname;
 
@@ -75,13 +66,27 @@
     }
   }
 
+  function handlePageLoadOrTransition() {
+    addDeepwikiNav();
+    updatePageTypeClass();
+  }
+
+  // 初回ロード + turbo.js に対応
+  document.addEventListener("turbo:load", handlePageLoadOrTransition);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", handlePageLoadOrTransition);
+  } else {
+    handlePageLoadOrTransition();
+  }
+
   // URL 変化の検出による SPA 対応
   let lastUrl = location.href;
   const observer = new MutationObserver(() => {
     const currentUrl = location.href;
     if (currentUrl !== lastUrl) {
       lastUrl = currentUrl;
-      setTimeout(addDeepwikiNav, 300); // DOM 安定後に実行
+      // DOM 安定後に実行 (ensure functions run after new page content is likely settled)
+      setTimeout(handlePageLoadOrTransition, 300);
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
