@@ -72,31 +72,19 @@
   function handlePageLoadOrTransition() {
     addDeepwikiNav();
     updatePageTypeClass();
-    removeCiPrefix(); // Added call
+    removeCiPrefix();
   }
 
   function removeCiPrefix() {
-    const regex = new RegExp("^Terraform Cloud\/[^/]+\/"); // Matches "Terraform Cloud/project_name/"
-    // Selector for CI check titles. This might need adjustment based on GitHub's actual DOM structure.
-    // Common selectors for check names:
-    // 1. `a.Link--primary[href*="/checks/"] > strong` (for links to check details)
-    // 2. `div.merge-status-item .text-emphasized strong` (for status items in PR merge box - often includes the check name)
-    // 3. `span.status-heading strong` (another common pattern for headings that might contain check names)
-    // We'll try a combination or a more general approach if needed.
-    // Let's start with a potentially common one for PR check lists or summaries.
-    const ciCheckTitleSelectors = [
-      'a.Link--primary[href*="/checks/"] > strong', // Links to check details pages
-      '.merge-status-item .text-emphasized', // Status items in PR merge box (often the check name itself)
-      // Consider adding more selectors if the above are not comprehensive
-      // e.g., 'span.text-emphasized[data-testid="check-run-name"]' if such specific attributes exist
-      'div.TimelineItem div.TimelineItem-body div.Box--condensed div.css-truncate.css-truncate-target > strong' // CI check titles in the timeline/conversation view
-    ];
+    const regex = new RegExp("Terraform Cloud/[^/]+/"); // Matches "Terraform Cloud/project_name/"
+    const ciCheckTitleSelectors = ["div.TimelineItem strong"];
 
-    ciCheckTitleSelectors.forEach(selector => {
+    ciCheckTitleSelectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
+      console.log(`Removing CI prefix from elements matching: ${selector}`);
       elements.forEach((el) => {
         if (el.textContent && regex.test(el.textContent)) {
-          el.textContent = el.textContent.replace(regex, ""); // Replace using regex
+          el.textContent = el.textContent.replace(regex, "");
         }
       });
     });
@@ -116,34 +104,22 @@
     const currentUrl = location.href;
     if (currentUrl !== lastUrl) {
       lastUrl = currentUrl;
-      // DOM 安定後に実行 (ensure functions run after new page content is likely settled)
-      // handlePageLoadOrTransition already calls removeCiPrefix
       setTimeout(handlePageLoadOrTransition, 300);
     } else {
-      // For dynamic content changes on the same page (e.g., CI status updates)
-      // Debounce the call to removeCiPrefix
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(removeCiPrefix, 150); // Use a shorter timeout for same-page updates
+      debounceTimer = setTimeout(removeCiPrefix, 150);
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
 
-  document.body.addEventListener('click', function(event) {
-    // Check for "View detail" or "Details" buttons, common in GH CI views
-    // Handles cases where click might be on a child element (e.g., span) inside the button/summary
-    const potentialButton = event.target.closest('button, summary, [role="button"]');
+  document.body.addEventListener("click", function (event) {
+    const potentialButton = event.target.closest(
+      'button, summary, [role="button"]'
+    );
 
     if (potentialButton) {
       const textContent = potentialButton.textContent.toLowerCase();
-      // Check for "detail" or "details" which are common in GH interface for expanding sections
-      if (textContent.includes('detail') || textContent.includes('details')) {
-        // In a future step, we will call removeCiPrefix here, likely after a short delay
-        // to allow the new content (CI job details) to render.
-        // For now, a console log suffices for verification if the environment allowed.
-        // The structure itself is the primary goal for this step.
-        // Call removeCiPrefix after a delay to allow content to load/render
-        setTimeout(removeCiPrefix, 300); // Using 300ms as a reasonable starting delay
-      }
+      setTimeout(removeCiPrefix, 300);
     }
   });
 })();
