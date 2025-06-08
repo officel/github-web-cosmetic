@@ -76,6 +76,7 @@
   }
 
   function removeCiPrefix() {
+    const regex = new RegExp("^Terraform Cloud\/[^/]+\/"); // Matches "Terraform Cloud/project_name/"
     // Selector for CI check titles. This might need adjustment based on GitHub's actual DOM structure.
     // Common selectors for check names:
     // 1. `a.Link--primary[href*="/checks/"] > strong` (for links to check details)
@@ -94,9 +95,8 @@
     ciCheckTitleSelectors.forEach(selector => {
       const elements = document.querySelectorAll(selector);
       elements.forEach((el) => {
-        if (el.textContent && el.textContent.includes("Terraform Cloud/*/")) {
-          // Prepend "FIXED: " for diagnostic purposes
-          el.textContent = "FIXED: " + el.textContent.replace("Terraform Cloud/*/", "");
+        if (el.textContent && regex.test(el.textContent)) {
+          el.textContent = el.textContent.replace(regex, ""); // Replace using regex
         }
       });
     });
