@@ -1,4 +1,7 @@
 (function () {
+  "use strict"; // Assuming 'use strict' might be good practice, or place it where appropriate.
+  let debounceTimer = null;
+
   function addDeepwikiNav() {
     const pathParts = window.location.pathname.split("/").filter(Boolean);
     if (pathParts.length < 2) return;
@@ -69,6 +72,22 @@
   function handlePageLoadOrTransition() {
     addDeepwikiNav();
     updatePageTypeClass();
+    removeCiPrefix();
+  }
+
+  function removeCiPrefix() {
+    const regex = new RegExp("Terraform Cloud/[^/]+/"); // Matches "Terraform Cloud/project_name/"
+    const ciCheckTitleSelectors = ["div.TimelineItem strong"];
+
+    ciCheckTitleSelectors.forEach((selector) => {
+      const elements = document.querySelectorAll(selector);
+      console.log(`Removing CI prefix from elements matching: ${selector}`);
+      elements.forEach((el) => {
+        if (el.textContent && regex.test(el.textContent)) {
+          el.textContent = el.textContent.replace(regex, "");
+        }
+      });
+    });
   }
 
   // 初回ロード + turbo.js に対応
@@ -85,9 +104,22 @@
     const currentUrl = location.href;
     if (currentUrl !== lastUrl) {
       lastUrl = currentUrl;
-      // DOM 安定後に実行 (ensure functions run after new page content is likely settled)
       setTimeout(handlePageLoadOrTransition, 300);
+    } else {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(removeCiPrefix, 150);
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
+
+  document.body.addEventListener("click", function (event) {
+    const potentialButton = event.target.closest(
+      'button, summary, [role="button"]'
+    );
+
+    if (potentialButton) {
+      const textContent = potentialButton.textContent.toLowerCase();
+      setTimeout(removeCiPrefix, 300);
+    }
+  });
 })();
