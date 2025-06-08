@@ -95,7 +95,8 @@
       const elements = document.querySelectorAll(selector);
       elements.forEach((el) => {
         if (el.textContent && el.textContent.includes("Terraform Cloud/*/")) {
-          el.textContent = el.textContent.replace("Terraform Cloud/*/", "");
+          // Prepend "FIXED: " for diagnostic purposes
+          el.textContent = "FIXED: " + el.textContent.replace("Terraform Cloud/*/", "");
         }
       });
     });
