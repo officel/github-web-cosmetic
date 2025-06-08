@@ -126,4 +126,23 @@
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
+
+  document.body.addEventListener('click', function(event) {
+    // Check for "View detail" or "Details" buttons, common in GH CI views
+    // Handles cases where click might be on a child element (e.g., span) inside the button/summary
+    const potentialButton = event.target.closest('button, summary, [role="button"]');
+
+    if (potentialButton) {
+      const textContent = potentialButton.textContent.toLowerCase();
+      // Check for "detail" or "details" which are common in GH interface for expanding sections
+      if (textContent.includes('detail') || textContent.includes('details')) {
+        // In a future step, we will call removeCiPrefix here, likely after a short delay
+        // to allow the new content (CI job details) to render.
+        // For now, a console log suffices for verification if the environment allowed.
+        // The structure itself is the primary goal for this step.
+        // Call removeCiPrefix after a delay to allow content to load/render
+        setTimeout(removeCiPrefix, 300); // Using 300ms as a reasonable starting delay
+      }
+    }
+  });
 })();
