@@ -1,6 +1,6 @@
 {
-  "name": "Github Web Cosmetic",
-  "description": "A simple Google Chrome extention to provide better visualization of github.com on large screen.",
+  "name": "GitHub Web Cosmetic",
+  "description": "A simple Google Chrome extension to provide better visualization of github.com on large screen.",
   "author": "raki@officel",
   "version": "1.0",
   "manifest_version": 3,
@@ -8,7 +8,7 @@
     {
       "matches": ["https://github.com/*/*"],
       "css": ["style.css"],
-      "js": ["deepwiki.js"],
+      "js": ["cosmetic.js"],
       "run_at": "document_idle"
     }
   ]

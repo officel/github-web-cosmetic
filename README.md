@@ -1,27 +1,16 @@
-# github web cosmetic
+# GitHub Web Cosmetic
 
-## motivation
+GitHub の Web View を少し良くします。
 
-I refer to the Terraformers module (thank you for your great work).
-
-It is a pity that the table is not visible, even though there is a lot of information in the table.
-
-It should be easier to see when using a wide display.
-
-[how it looks](https://github.com/officel/github-web-cosmetic/issues/1)
-
-## motivation 2
-
-The width of the sidebar is too short and the experience is not good.
-
-If you are using a wide display, it should appear a little longer.
-
-[how it looks](https://github.com/officel/github-web-cosmetic/issues/4)
+- Deep wiki へのリンクをメインメニューに追加します（[画面例](https://github.com/officel/github-web-cosmetic/pull/6)）
+- blob表示時に左右の余白を減らし最大限活用できるようにします（[画面例](https://github.com/officel/github-web-cosmetic/issues/1)）
+- Actions の実行結果の左ペインの幅を大きくとり見やすくします（[画面例](https://github.com/officel/github-web-cosmetic/issues/4)）
+- Pull Request のタイムラインの幅を大きくとり見やすくします
+- Pull Request の CI 結果のリストで、HCP Terraform（旧 Terraform Cloud）の結果表示を見やすくします
 
 ## usage
 
-- clone me to local pc
-- open `chrome://extensions/` (Of course, with google chrome)
-- switch on `developer mode`
-- click `load unpacked` and select cloned folder
-- that's all
+- リポジトリを clone してください
+- Google Chrome で [chrome://extensions/](chrome://extensions/) を開きます
+- `developer mode` を有効にします
+- `load unpacked` （日本語ではパッケージ化されていない機能拡張を読み込む）をクリックして、clone したディレクトリを選択します
