@@ -69,6 +69,32 @@
   function handlePageLoadOrTransition() {
     addDeepwikiNav();
     updatePageTypeClass();
+    removeCiPrefix(); // Added call
+  }
+
+  function removeCiPrefix() {
+    // Selector for CI check titles. This might need adjustment based on GitHub's actual DOM structure.
+    // Common selectors for check names:
+    // 1. `a.Link--primary[href*="/checks/"] > strong` (for links to check details)
+    // 2. `div.merge-status-item .text-emphasized strong` (for status items in PR merge box - often includes the check name)
+    // 3. `span.status-heading strong` (another common pattern for headings that might contain check names)
+    // We'll try a combination or a more general approach if needed.
+    // Let's start with a potentially common one for PR check lists or summaries.
+    const ciCheckTitleSelectors = [
+      'a.Link--primary[href*="/checks/"] > strong', // Links to check details pages
+      '.merge-status-item .text-emphasized', // Status items in PR merge box (often the check name itself)
+      // Consider adding more selectors if the above are not comprehensive
+      // e.g., 'span.text-emphasized[data-testid="check-run-name"]' if such specific attributes exist
+    ];
+
+    ciCheckTitleSelectors.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((el) => {
+        if (el.textContent && el.textContent.includes("HCP Terraform/*/")) {
+          el.textContent = el.textContent.replace("HCP Terraform/*/", "");
+        }
+      });
+    });
   }
 
   // 初回ロード + turbo.js に対応
@@ -86,7 +112,10 @@
     if (currentUrl !== lastUrl) {
       lastUrl = currentUrl;
       // DOM 安定後に実行 (ensure functions run after new page content is likely settled)
-      setTimeout(handlePageLoadOrTransition, 300);
+      setTimeout(() => {
+        handlePageLoadOrTransition();
+        removeCiPrefix(); // Explicitly call after handlePageLoadOrTransition as per instructions
+      }, 300);
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
