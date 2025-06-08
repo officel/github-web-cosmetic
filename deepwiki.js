@@ -81,7 +81,6 @@
 
     ciCheckTitleSelectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
-      console.log(`Removing CI prefix from elements matching: ${selector}`);
       elements.forEach((el) => {
         if (el.textContent && regex.test(el.textContent)) {
           el.textContent = el.textContent.replace(regex, "");
