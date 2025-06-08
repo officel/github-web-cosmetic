@@ -85,13 +85,14 @@
       '.merge-status-item .text-emphasized', // Status items in PR merge box (often the check name itself)
       // Consider adding more selectors if the above are not comprehensive
       // e.g., 'span.text-emphasized[data-testid="check-run-name"]' if such specific attributes exist
+      'div.TimelineItem div.TimelineItem-body div.Box--condensed div.css-truncate.css-truncate-target > strong' // CI check titles in the timeline/conversation view
     ];
 
     ciCheckTitleSelectors.forEach(selector => {
       const elements = document.querySelectorAll(selector);
       elements.forEach((el) => {
-        if (el.textContent && el.textContent.includes("HCP Terraform/*/")) {
-          el.textContent = el.textContent.replace("HCP Terraform/*/", "");
+        if (el.textContent && el.textContent.includes("Terraform Cloud/*/")) {
+          el.textContent = el.textContent.replace("Terraform Cloud/*/", "");
         }
       });
     });
