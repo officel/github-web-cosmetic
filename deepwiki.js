@@ -1,4 +1,7 @@
 (function () {
+  "use strict"; // Assuming 'use strict' might be good practice, or place it where appropriate.
+  let debounceTimer = null;
+
   function addDeepwikiNav() {
     const pathParts = window.location.pathname.split("/").filter(Boolean);
     if (pathParts.length < 2) return;
@@ -113,10 +116,13 @@
     if (currentUrl !== lastUrl) {
       lastUrl = currentUrl;
       // DOM 安定後に実行 (ensure functions run after new page content is likely settled)
-      setTimeout(() => {
-        handlePageLoadOrTransition();
-        removeCiPrefix(); // Explicitly call after handlePageLoadOrTransition as per instructions
-      }, 300);
+      // handlePageLoadOrTransition already calls removeCiPrefix
+      setTimeout(handlePageLoadOrTransition, 300);
+    } else {
+      // For dynamic content changes on the same page (e.g., CI status updates)
+      // Debounce the call to removeCiPrefix
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(removeCiPrefix, 150); // Use a shorter timeout for same-page updates
     }
   });
   observer.observe(document.body, { childList: true, subtree: true });
