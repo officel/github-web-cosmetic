@@ -77,7 +77,10 @@
 
   function removeCiPrefix() {
     const regex = new RegExp("Terraform Cloud/[^/]+/"); // Matches "Terraform Cloud/project_name/"
-    const ciCheckTitleSelectors = ["div.TimelineItem strong"];
+    const ciCheckTitleSelectors = [
+      "div.TimelineItem strong", // 通常の GitHub
+      "ul li div a span", // GitHub EMU
+    ];
 
     ciCheckTitleSelectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
