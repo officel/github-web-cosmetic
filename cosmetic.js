@@ -42,6 +42,36 @@
 
     li.appendChild(a);
     ul.appendChild(li);
+
+    // gitingest を追加
+    const li2 = document.createElement("li");
+    li2.className = "d-inline-flex gitingest-nav-item";
+
+    const a2 = document.createElement("a");
+    a2.href = `https://gitingest.com/${owner}/${repo}`;
+    a2.target = "_blank";
+    a2.className =
+      "UnderlineNav-item no-wrap js-responsive-underlinenav-item js-selected-navigation-item";
+
+    const img2 = document.createElement("img");
+    img2.src = "https://gitingest.com/static/favicon.ico";
+    img2.alt = "Gitingest";
+    img2.style.width = "16px";
+    img2.style.height = "16px";
+    img2.style.verticalAlign = "middle";
+    img2.style.marginRight = "8px";
+    img2.onerror = function () {
+      this.src =
+        'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23007acc" viewBox="0 0 16 16"><rect width="14" height="12" x="1" y="2" rx="2" fill="%23fff" stroke="%23007acc" stroke-width="1.5"/><path d="M4 5h8M4 8h8M4 11h5" stroke="%23007acc" stroke-width="1.2" stroke-linecap="round"/></svg>';
+    };
+    a2.appendChild(img2);
+
+    const span2 = document.createElement("span");
+    span2.textContent = "Gitingest";
+    a2.appendChild(span2);
+
+    li2.appendChild(a2);
+    ul.appendChild(li2);
   }
 
   function updatePageTypeClass() {
