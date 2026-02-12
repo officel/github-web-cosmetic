@@ -7,8 +7,11 @@
     if (pathParts.length < 2) return;
 
     const [owner, repo] = pathParts;
-    const headerSelector = "ul.UnderlineNav-body.list-style-none";
-    const ul = document.querySelector(headerSelector);
+    const ul =
+      document.querySelector('nav[aria-label="Repository"] ul') ||
+      document.querySelector("ul.UnderlineNav-body") ||
+      document.getElementById("code-tab")?.closest("ul");
+
     if (!ul) return;
 
     // すでに追加済みなら何もしない
@@ -16,8 +19,10 @@
 
     const li = document.createElement("li");
     li.className = "d-inline-flex deepwiki-nav-item";
+    li.setAttribute("data-view-component", "true");
 
     const a = document.createElement("a");
+    a.setAttribute("data-view-component", "true");
     a.href = `https://deepwiki.com/${owner}/${repo}`;
     a.target = "_blank";
     a.className =
@@ -46,8 +51,10 @@
     // gitingest を追加
     const li2 = document.createElement("li");
     li2.className = "d-inline-flex gitingest-nav-item";
+    li2.setAttribute("data-view-component", "true");
 
     const a2 = document.createElement("a");
+    a2.setAttribute("data-view-component", "true");
     a2.href = `https://gitingest.com/${owner}/${repo}`;
     a2.target = "_blank";
     a2.className =
