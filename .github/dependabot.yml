@@ -9,11 +9,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    reviewers:
-      - "officel"
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "weekly"
-    reviewers:
-      - "officel"
+  - package-ecosystem: "pre-commit"
+    directory: "/"
+    schedule:
+      interval: "weekly"
