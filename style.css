@@ -20,6 +20,6 @@ body.is-code-file div.container-xl {
  * max-width restrictions in pull view
  * for pull requests page
 */
-body.is-pull-request #repo-content-pjax-container div {
-  max-width: stretch !important;
+body.is-pull-request .container-xl {
+  max-width: initial !important;
 }
