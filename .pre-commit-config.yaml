@@ -11,14 +11,7 @@ repos:
     rev: 3e8a8703264a2f4a69428a0aa4dcb512790b2c8c  # frozen: v6.0.0
     hooks:
       - id: check-json
-        exclude: |
-          (?x)^(
-            backup/[\d|\w|_]+\/(.*?)|
-            path/to/file3.json
-          )$
       - id: check-yaml
-        args:
-          - --allow-multiple-documents
       - id: check-toml
       - id: check-xml
       - id: detect-private-key
@@ -26,10 +19,10 @@ repos:
       - id: trailing-whitespace
       - id: check-merge-conflict
 
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: 83d9cd684c87d95d656c1458ef04895a7f1cbd8e  # frozen: v8.30.1
+  - repo: https://github.com/betterleaks/betterleaks
+    rev: ac65f4739c352ab23dc2650a65be261016543599  # frozen: v1.5.0
     hooks:
-      - id: gitleaks
+      - id: betterleaks
 
   - repo: https://github.com/rhysd/actionlint
     rev: 914e7df21a07ef503a81201c76d2b11c789d3fca  # frozen: v1.7.12
@@ -41,28 +34,22 @@ repos:
     hooks:
       - id: zizmor
 
-  - repo: https://github.com/jackdewinter/pymarkdown
-    rev: 6d3c1b70d44ea2202b23552af93aca3b5017ee83  # frozen: v0.9.36
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: 55a16ea4c3faab9ca9d5d82d79a1e9db061420ea  # frozen: v0.2.16
     hooks:
-      - id: pymarkdown
-        args:
-          - --config=.config/.pymarkdown.yaml
-          - scan
-        exclude: |
-          (?x)^(
-            backup/[\d|\w|_]+\/(.*?)|
-            path/to/file3.py
-          )$
+      - id: rumdl
+        args: ["--fix"]
+      - id: rumdl-fmt
 
-  - repo: https://github.com/adrienverge/yamllint.git
-    rev: cba56bcde1fdd01c1deb3f945e69764c291a6530  # frozen: v1.38.0
+  - repo: https://github.com/owenlamont/ryl-pre-commit
+    rev: c4ad375161f4ab823bd05cea6401a30b5e551585  # frozen: v0.17.0
     hooks:
-      - id: yamllint
+      - id: ryl
+        types_or: [yaml, markdown]
         args:
-          - -c=.config/.yamllint
+          - -c=.config/ryl.toml
 
   - repo: https://github.com/compilerla/conventional-pre-commit
     rev: 91ab4bf57e58b32adf1a122681f6ebe164d081c8  # frozen: v4.4.0
     hooks:
       - id: conventional-pre-commit
-        stages: [commit-msg]
