@@ -20,6 +20,8 @@ body.is-code-file div.container-xl {
  * max-width restrictions in pull view
  * for pull requests page
 */
-body.is-pull-request .container-xl {
+body.is-pull-request .container-xl,
+body.is-pull-request .PageLayout-content,
+body.is-pull-request .PageLayout {
   max-width: initial !important;
 }
