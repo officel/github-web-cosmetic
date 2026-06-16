@@ -22,6 +22,12 @@ body.is-code-file div.container-xl {
 */
 body.is-pull-request .container-xl,
 body.is-pull-request .PageLayout-content,
-body.is-pull-request .PageLayout {
+body.is-pull-request .PageLayout,
+body.is-pull-request .pull-discussion-timeline,
+body.is-pull-request [data-width="large"],
+body.is-pull-request div[class*="PageLayout-ContentWrapper"],
+body.is-pull-request div[class*="PageLayout-Content-"],
+body.is-pull-request div[class*="PageLayout-PageLayoutContent"] {
   max-width: initial !important;
+  width: 100% !important;
 }
